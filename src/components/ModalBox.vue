@@ -9,7 +9,7 @@
       >
         <!--header-->
         <div class="flex items-center rounded-t">
-          <slot name="m-header">Header</slot>
+          <slot name="m-header"></slot>
         </div>
         <!--body-->
         <div class="relative flex-auto">
@@ -23,13 +23,12 @@
         </div>
         <!--footer-->
         <div class="flex items-center rounded-b">
-          <slot name="m-footer">
-            footer
-          </slot>
+          <slot name="m-footer"></slot>
         </div>
       </div>
     </div>
   </div>
+  <slot name="extra"></slot>
 </template>
 
 <script>

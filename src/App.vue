@@ -1,5 +1,10 @@
 <template>
-  <Main :pOne="pOne" :pTwo="pTwo" />
+  <Main
+    :pOne="pOne"
+    :pTwo="pTwo"
+    @p1win="win('Plyayer1')"
+    @p2win="win('Plyayer2')"
+  />
 
   <modal-box v-if="startModal">
     <template v-slot:m-header>
@@ -39,6 +44,36 @@
     </template>
   </modal-box>
 
+  <modal-box v-if="countDownModal">
+    <template v-slot:m-body>
+      <div class="font-mono text-7xl p-20">{{ timer }}</div>
+    </template>
+  </modal-box>
+
+  <modal-box v-if="winnerModal">
+    <template v-slot:m-header>
+      <div class="font-mono text-4xl pb-3 py-5 px-8">{{ winner }} WIN !</div>
+    </template>
+    <template v-slot:m-body>
+      <div class="flex justify-center font-mono text-2xl py-2">Try Again ?</div>
+    </template>
+    <template v-slot:m-footer>
+      <div class="flex flex-col w-full px-4 py-2 space-y-1">
+        <button
+          class="flex w-full rounded-lg py-1 justify-center bg-green-500 hover:bg-green-400"
+          @click="onRepeat"
+        >
+          Yes!
+        </button>
+        <button
+          class="flex w-full rounded-lg py-1 justify-center bg-red-500 hover:bg-red-400"
+          @click="onExit"
+        >
+          NO
+        </button>
+      </div>
+    </template>
+  </modal-box>
   <router-view />
 </template>
 
@@ -58,9 +93,43 @@ export default {
         { name: "blue", val: "bg-blue-500" },
       ],
       startModal: true,
+      countDownModal: false,
+      winnerModal: false,
+      timer: 0,
+      winner: "",
     };
   },
-  methods: {},
+  watch: {
+    timer(newVal) {
+      if (newVal > 0) {
+        setTimeout(() => {
+          this.timer--;
+        }, 1000);
+      } else {
+        this.countDownModal = !this.countDownModal;
+      }
+    },
+  },
+  methods: {
+    onStart() {
+      this.startModal = !this.startModal;
+      this.timer = 3;
+      this.countDownModal = !this.countDownModal;
+    },
+    win(val) {
+      this.winnerModal = !this.winnerModal;
+      this.winner = val;
+    },
+    onRepeat() {
+      this.winnerModal = !this.winnerModal;
+      this.timer = 3;
+      this.countDownModal = !this.countDownModal;
+    },
+    onExit() {
+      this.winnerModal = !this.winnerModal;
+      this.startModal = !this.startModal;
+    },
+  },
 };
 </script>
 <style></style>
