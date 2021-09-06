@@ -20,11 +20,9 @@ export default {
   props: {
     pOne: {
       type: String,
-      default: "bg-red-500",
     },
     pTwo: {
       type: String,
-      default: "bg-green-500",
     },
     playAble: {
       type: Boolean,
