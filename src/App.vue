@@ -4,6 +4,7 @@
     :pTwo="pTwo"
     @p1win="win('Plyayer1')"
     @p2win="win('Plyayer2')"
+    :playAble="playAble"
   />
 
   <modal-box v-if="startModal">
@@ -42,6 +43,15 @@
         Start
       </button>
     </template>
+    <template v-slot:extra>
+      <div class="text-white">
+        <div class="flex flex-col fixed bottom-0 left-0">
+          <span>P1 : Click or Press A</span>
+          <span>P2 : Click or Press L</span>
+        </div>
+        <span class="fixed bottom-0 right-0">Copyright @2021 RDanang</span>
+      </div>
+    </template>
   </modal-box>
 
   <modal-box v-if="countDownModal">
@@ -74,7 +84,6 @@
       </div>
     </template>
   </modal-box>
-  <router-view />
 </template>
 
 <script>
@@ -97,6 +106,7 @@ export default {
       winnerModal: false,
       timer: 0,
       winner: "",
+      playAble: false,
     };
   },
   watch: {
@@ -107,9 +117,11 @@ export default {
         }, 1000);
       } else {
         this.countDownModal = !this.countDownModal;
+        this.playAble = true;
       }
     },
   },
+  computed: {},
   methods: {
     onStart() {
       this.startModal = !this.startModal;
@@ -118,6 +130,7 @@ export default {
     },
     win(val) {
       this.winnerModal = !this.winnerModal;
+      this.playAble = false;
       this.winner = val;
     },
     onRepeat() {
@@ -132,4 +145,3 @@ export default {
   },
 };
 </script>
-<style></style>

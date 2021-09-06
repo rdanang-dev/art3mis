@@ -26,6 +26,10 @@ export default {
       type: String,
       default: "bg-green-500",
     },
+    playAble: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -37,14 +41,34 @@ export default {
       },
     };
   },
+  watch: {
+    playAble(newVal) {
+      if (newVal === true) {
+        window.addEventListener("keypress", this.onPlayable);
+      } else {
+        window.removeEventListener("keypress", this.onPlayable);
+      }
+    },
+  },
+  mounted() {},
   methods: {
+    onPlayable(e) {
+      if (e.key === "a") {
+        this.addPlayerOne();
+      }
+      if (e.key === "l") {
+        this.addPlayerTwo();
+      }
+    },
     addPlayerOne() {
       this.player.height.playerOne += 1;
       this.player.height.playerTwo -= 1;
       if (this.player.height.playerOne === 100) {
         this.$emit("p1win");
-        this.player.height.playerOne = 50;
-        this.player.height.playerTwo = 50;
+        setTimeout(() => {
+          this.player.height.playerOne = 50;
+          this.player.height.playerTwo = 50;
+        }, 300);
       }
     },
     addPlayerTwo() {
@@ -52,8 +76,10 @@ export default {
       this.player.height.playerOne -= 1;
       if (this.player.height.playerTwo === 100) {
         this.$emit("p2win");
-        this.player.height.playerOne = 50;
-        this.player.height.playerTwo = 50;
+        setTimeout(() => {
+          this.player.height.playerOne = 50;
+          this.player.height.playerTwo = 50;
+        }, 300);
       }
     },
   },

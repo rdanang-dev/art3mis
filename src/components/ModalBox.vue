@@ -33,7 +33,6 @@
 
 <script>
 export default {
-  props: ["theme"],
   methods: {
     close() {
       this.$emit("close");
